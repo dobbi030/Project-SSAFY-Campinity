@@ -39,7 +39,8 @@ public class FcmTokenTest {
 
         FcmToken persistedFcmToken = fcmTokenRepository.findByMember_Id(testMember.getId()).orElse(null);
 
-        assertNotNull(fcmToken);
+        assertNotNull(persistedFcmToken);
+        assertEquals(persistedFcmToken.getFcmToken(), fcmToken.getFcmToken());
     }
 
 }
