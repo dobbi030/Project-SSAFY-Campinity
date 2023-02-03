@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MyMessageResDTO {
+public class MyMessagesResDTO {
 
     @ApiModelProperty(example = "내가 작성한 리뷰 쪽지 리스트")
     private List<MessageResDTO> myReviewMessages = new ArrayList<>();
@@ -19,7 +19,7 @@ public class MyMessageResDTO {
     private List<MessageResDTO> myETCMessages = new ArrayList<>();
 
     @Builder
-    public MyMessageResDTO(List<Message> messages) {
+    public MyMessagesResDTO(List<Message> messages) {
 
         for (Message m : messages) {
             MessageResDTO messageResDTO = MessageResDTO.builder().message(m).build();

@@ -2,11 +2,8 @@ package com.ssafy.campinity.api.controller;
 
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
-import com.ssafy.campinity.core.dto.MessageResDTO;
 import com.ssafy.campinity.core.dto.MyCollectionResDTO;
-import com.ssafy.campinity.core.dto.MyMessageResDTO;
 import com.ssafy.campinity.core.entity.MyCollection.MyCollection;
-import com.ssafy.campinity.core.entity.message.Message;
 import com.ssafy.campinity.core.service.MessageService;
 import com.ssafy.campinity.core.service.MyCollectionService;
 import io.swagger.annotations.Api;
@@ -17,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,21 +43,4 @@ public class HomeController {
         List<MyCollectionResDTO> myCollectionResDTOList = myCollections.stream().map(MyCollectionResDTO::new).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(myCollectionResDTOList);
     }
-
-    @Transactional
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "내가 작성한 쪽지 조회 성공했을 때 응답"),
-            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답")
-    })
-    @ApiOperation(value = "최신 컬렉션 top 5 리스트 조회 API")
-    @GetMapping("/my-messages")
-    public ResponseEntity<MyMessageResDTO> getMyMessages (
-            @AuthenticationPrincipal MemberDetails memberDetails
-    ){
-        List<Message> messages = messageService.getMyMessages(memberDetails.getMember().getId());
-        MyMessageResDTO myMessageResDTO = MyMessageResDTO.builder().messages(messages).build();
-        return ResponseEntity.status(HttpStatus.OK).body(myMessageResDTO);
-    }
-
-
 }

@@ -45,8 +45,6 @@ public class MyCollectionRepositoryTest {
                 .build();
         myCollectionRepository.save(myCollection);
 
-        Thread.sleep(100);
-
         MyCollection myCollection1 = MyCollection.builder()
                 .uuid(UUID.randomUUID())
                 .campsiteName("두번째 생성")
@@ -54,8 +52,6 @@ public class MyCollectionRepositoryTest {
                 .date("1234")
                 .build();
         myCollectionRepository.save(myCollection1);
-
-        Thread.sleep(100);
 
         MyCollection myCollection2 = MyCollection.builder()
                 .uuid(UUID.randomUUID())
@@ -65,8 +61,6 @@ public class MyCollectionRepositoryTest {
                 .build();
         myCollectionRepository.save(myCollection2);
 
-        Thread.sleep(100);
-
         MyCollection myCollection3 = MyCollection.builder()
                 .uuid(UUID.randomUUID())
                 .campsiteName("네번째 생성")
@@ -75,8 +69,6 @@ public class MyCollectionRepositoryTest {
                 .build();
         myCollectionRepository.save(myCollection3);
 
-        Thread.sleep(100);
-
         MyCollection myCollection4 = MyCollection.builder()
                 .uuid(UUID.randomUUID())
                 .campsiteName("다섯번째 생성")
@@ -84,8 +76,6 @@ public class MyCollectionRepositoryTest {
                 .date("1234")
                 .build();
         myCollectionRepository.save(myCollection4);
-
-        Thread.sleep(100);
 
         MyCollection myCollection5 = MyCollection.builder()
                 .uuid(UUID.randomUUID())
