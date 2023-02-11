@@ -19,7 +19,7 @@ class MemberRepositoryTest {
         Member member = Member.builder()
                 .uuid(UUID.randomUUID())
                 .email("sss@sss.sss")
-                .name("이원일")
+                .name("test")
                 .build();
         memberRepository.save(member);
     }
