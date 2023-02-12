@@ -4,6 +4,7 @@ services:
     container_name: database
     image: mariadb
     volumes:
+      - "/etc/timezone/:/etc/timezone:ro" #ubuntu timezone기준으로 설정
       - type: volume
         source: initdb-volume
         target: /docker-entrypoint-initdb.d
@@ -21,14 +22,18 @@ services:
               '--collation-server=utf8mb4_unicode_ci']
     ports:
       - 3306:3306
-    restart: always
+    restart: unless-stopped
+    networks:
+      default_bridge:
+        ipv4_address: 172.33.0.10
 
   application:
     build: ./demo-api-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/campinity?useUnicode=true
-      SPRING_DATASOURCE_USERNAME: server
+      SPRING_DATASOURCE_USERNAME: server  #local환경에서는 root로 변경
       SPRING_DATASOURCE_PASSWORD: ssafy123!
+      TZ: "Asia/Seoul"
     ports:
       - 8003:8003
     depends_on:
@@ -40,16 +45,19 @@ services:
       options:
         max-file: "5"
         max-size: "100m"
-
+    networks:
+      default_bridge:
+        ipv4_address: 172.33.0.11
   batch-server:
     build: ./demo-batch-server
     environment:
       SPRING_BATCH_DB_DATASOURCE_URL: jdbc:mariadb://database:3306/batch?useUnicode=true
-      SPRING_BATCH_DB_DATASOURCE_USERNAME: server
+      SPRING_BATCH_DB_DATASOURCE_USERNAME: server #local환경에서는 root로 변경
       SPRING_BATCH_DB_DATASOURCE_PASSWORD: ssafy123!
       SPRING_CAMPINITY_DB_DATASOURCE_URL: jdbc:mariadb://database:3306/campinity?useUnicode=true
-      SPRING_CAMPINITY_DB_DATASOURCE_USERNAME: server
+      SPRING_CAMPINITY_DB_DATASOURCE_USERNAME: server #local환경에서는 root로 변경
       SPRING_CAMPINITY_DATASOURCE_PASSWORD: ssafy123!
+      TZ: "Asia/Seoul"
     ports:
       - 8002:8002
     depends_on:
@@ -59,6 +67,9 @@ services:
       options:
         max-file: "5"
         max-size: "100m"
+    networks:
+      default_bridge:
+        ipv4_address: 172.33.0.12
 
   redis:
     image: redis:alpine
@@ -68,11 +79,28 @@ services:
     labels:
       - "name=redis"
       - "mode=standalone"
+    environment:
+      TZ: "Asia/Seoul"
     ports:
       - 6379:6379
+    volumes:
+      - type: volume
+        source: redis-data
+        target: /data
+    networks:
+      default_bridge:
+        ipv4_address: 172.33.0.13
 
 volumes:
   upload-images:
   initdb-volume:
   confd-volume:
   data-volume:
+  redis-data:
+
+networks:
+  default_bridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.33.0.0/16
