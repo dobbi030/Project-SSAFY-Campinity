@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `fcm_message` (
   `member_id` int DEFAULT NULL,
   `appointee_token` varchar(255) DEFAULT NULL,
   `expired` bit NOT NULL,
-  `uuid` binary(255) DEFAULT NULL,
+  `uuid` char(36) DEFAULT NULL,
   `campsite_uuid` varchar(255) DEFAULT NULL,
   `latitude` double DEFAULT NULL,
   `longitude` double DEFAULT NULL,
