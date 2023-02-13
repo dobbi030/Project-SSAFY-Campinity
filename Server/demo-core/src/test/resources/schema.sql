@@ -196,6 +196,7 @@ CREATE TABLE IF NOT EXISTS `campsite_image` (
   `updated_at` datetime DEFAULT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `campsite_id` int DEFAULT NULL,
+  `thumbnail_image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`campsite_id`) REFERENCES `campsite` (`id`)
 );
