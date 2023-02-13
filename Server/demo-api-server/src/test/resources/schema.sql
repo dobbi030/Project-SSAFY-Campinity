@@ -259,6 +259,9 @@ CREATE TABLE IF NOT EXISTS `fcm_message` (
   `appointee_token` varchar(255) DEFAULT NULL,
   `expired` bit NOT NULL,
   `uuid` binary(255) DEFAULT NULL,
+  `campsite_uuid` varchar(255) DEFAULT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
 );

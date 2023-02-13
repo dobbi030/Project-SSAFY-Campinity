@@ -26,12 +26,6 @@ spring:
       path: /h2-console
       settings:
         web-allow-others: true
-#  sql:
-#    init:
-#      enabled: true
-#  batch:
-#    jdbc:
-#      initialize-schema: always
   hikari:
     connectionTimeout: 30000
     maximumPoolSize: 30
@@ -53,8 +47,9 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   redis:
-    host: localhost
+    host: redis_boot
     port: 6379
+    password: campinity1308!
 
 custom:
   path:
