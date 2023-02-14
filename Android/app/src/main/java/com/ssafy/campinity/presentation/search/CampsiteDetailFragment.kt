@@ -55,6 +55,12 @@ class CampsiteDetailFragment :
 
             searchViewModel.campsiteData.value.let { campsiteDetailInfo ->
                 initViewPager()
+
+                if (campsiteDetailInfo != null && campsiteDetailInfo.thumbnails.isEmpty()) {
+                    binding.vpCampsiteImage.visibility = View.GONE
+                    binding.ivIndicator.visibility = View.GONE
+                }
+
                 tvCampsiteIndustry.text =
                     if (campsiteDetailInfo != null && campsiteDetailInfo.industries.isNotEmpty()) {
                         campsiteDetailInfo.industries.toString(" | ")
