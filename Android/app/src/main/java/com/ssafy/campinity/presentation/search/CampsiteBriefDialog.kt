@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.campinity.R
@@ -54,6 +55,14 @@ class CampsiteBriefDialog(
                 btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
             else
                 btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
+
+            if (campsiteBriefData.thumbnails.isEmpty()) {
+                rvCampsiteImage.visibility = View.GONE
+                clEmptyCollection.visibility = View.VISIBLE
+            } else {
+                rvCampsiteImage.visibility = View.VISIBLE
+                clEmptyCollection.visibility = View.GONE
+            }
         }
     }
 
