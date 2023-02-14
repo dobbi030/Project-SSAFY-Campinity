@@ -37,6 +37,7 @@ class CampsiteReviewAdapter(
 
     fun setData(sync: Int, reviews: List<Review>) {
         this.reviews = reviews
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(binding: ItemCampsiteReviewBinding) :

@@ -303,10 +303,10 @@ class CampsiteDetailFragment :
             tvShowListReview.setOnClickListener {
                 it.visibility = View.GONE
                 campsiteReviewAdapter.setData(0, searchViewModel.campsiteData.value!!.reviews)
-                campsiteReviewAdapter.notifyItemRangeInserted(
-                    reviews.size,
-                    searchViewModel.campsiteData.value!!.reviews.size - reviews.size
-                )
+//                campsiteReviewAdapter.notifyItemRangeInserted(
+//                    reviews.size,
+//                    searchViewModel.campsiteData.value!!.reviews.size - reviews.size
+//                )
             }
         }
     }
@@ -372,16 +372,15 @@ class CampsiteDetailFragment :
             if (this.size > 3) {
                 reviews = this.subList(0, 3)
                 campsiteReviewAdapter.setData(sync, reviews)
-                campsiteReviewAdapter.notifyDataSetChanged()
                 binding.rvCampsiteReview.visibility = View.VISIBLE
                 binding.tvShowListReview.visibility = View.VISIBLE
                 binding.clEmptyCollection.visibility = View.GONE
             } else if (this.isNotEmpty()) {
                 campsiteReviewAdapter.setData(sync, this)
-                if (isInserted)
-                    campsiteReviewAdapter.notifyItemInserted(position)
-                else
-                    campsiteReviewAdapter.notifyItemRemoved(position)
+//                if (isInserted)
+//                    campsiteReviewAdapter.notifyItemInserted(position)
+//                else
+//                    campsiteReviewAdapter.notifyItemRemoved(position)
                 binding.rvCampsiteReview.visibility = View.VISIBLE
                 binding.tvShowListReview.visibility = View.GONE
                 binding.clEmptyCollection.visibility = View.GONE
@@ -390,7 +389,6 @@ class CampsiteDetailFragment :
                 binding.tvShowListReview.visibility = View.GONE
                 binding.clEmptyCollection.visibility = View.VISIBLE
                 campsiteReviewAdapter.setData(sync, listOf())
-                campsiteReviewAdapter.notifyDataSetChanged()
             }
         }
     }
