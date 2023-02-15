@@ -1,6 +1,7 @@
 package com.ssafy.campinity.presentation.search
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,16 @@ class CampsiteReviewAdapter(
 
     override fun getItemCount(): Int = reviews.size
 
+    override fun getItemId(position: Int): Long = position.toLong()
+
+    override fun getItemViewType(position: Int): Int = position
+
     fun setData(sync: Int, reviews: List<Review>) {
+        Log.d("CampsiteReviewAdapter", "${reviews.size}\n")
+
+        reviews.forEach { review ->
+            Log.d("CampsiteReviewAdapter", "$review")
+        }
         this.reviews = reviews
         notifyDataSetChanged()
     }

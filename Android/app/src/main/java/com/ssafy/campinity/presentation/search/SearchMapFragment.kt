@@ -30,16 +30,16 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     override fun onResume() {
         super.onResume()
 
-//        mapView = MapView(requireContext())
-//        binding.rlMapView.addView(mapView)
-//
-//        initFragment()
-//        observe()
+        mapView = MapView(requireContext())
+        binding.rlMapView.addView(mapView)
+
+        initFragment()
+        observe()
     }
 
     override fun onPause() {
         super.onPause()
-//        binding.rlMapView.removeView(mapView)
+        binding.rlMapView.removeView(mapView)
     }
 
     @SuppressLint("MissingPermission")

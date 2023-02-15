@@ -138,76 +138,77 @@ class CampsiteDetailFragment :
                     }
                 }
 
-                mapFacilityAndLeisureList(campsiteDetailInfo!!)
+                mapFacilityAndLeisureList(campsiteDetailInfo)
             }
         }
     }
 
-    private fun mapFacilityAndLeisureList(campsiteDetailInfo: CampsiteDetailInfo) {
+    private fun mapFacilityAndLeisureList(campsiteDetailInfo: CampsiteDetailInfo?) {
         val facilityAndLeisureList: ArrayList<FacilityAndLeisureItem> = arrayListOf()
 
-        campsiteDetailInfo.caravanFacilities.forEach {
-            facilityAndLeisureList.add(
-                FacilityAndLeisureItem(
-                    resources.getIdentifier(
-                        "ic_campsite_facility_$it", "drawable", requireContext().packageName
-                    ), contentFacility[it - 1]
-                )
-            )
-        }
-
-        campsiteDetailInfo.glampingFacilities.forEach {
-            if (!facilityAndLeisureList.contains(
+        if (campsiteDetailInfo != null) {
+            campsiteDetailInfo.caravanFacilities.forEach {
+                facilityAndLeisureList.add(
                     FacilityAndLeisureItem(
                         resources.getIdentifier(
                             "ic_campsite_facility_$it", "drawable", requireContext().packageName
                         ), contentFacility[it - 1]
                     )
                 )
-            ) facilityAndLeisureList.add(
+            }
+
+            campsiteDetailInfo.glampingFacilities.forEach {
+                if (!facilityAndLeisureList.contains(
+                        FacilityAndLeisureItem(
+                            resources.getIdentifier(
+                                "ic_campsite_facility_$it", "drawable", requireContext().packageName
+                            ), contentFacility[it - 1]
+                        )
+                    )
+                ) facilityAndLeisureList.add(
+                    FacilityAndLeisureItem(
+                        resources.getIdentifier(
+                            "ic_campsite_facility_$it", "drawable", requireContext().packageName
+                        ), contentFacility[it - 1]
+                    )
+                )
+            }
+
+            campsiteDetailInfo.amenities.forEach {
+                facilityAndLeisureList.add(
+                    FacilityAndLeisureItem(
+                        resources.getIdentifier(
+                            "ic_campsite_amenity_$it", "drawable", requireContext().packageName
+                        ), contentAmenity[it - 1]
+                    )
+                )
+            }
+
+            campsiteDetailInfo.themes.forEach {
+                facilityAndLeisureList.add(
+                    FacilityAndLeisureItem(
+                        resources.getIdentifier(
+                            "ic_campsite_theme_$it", "drawable", requireContext().packageName
+                        ), contentTheme[it - 1]
+                    )
+                )
+            }
+
+            if (facilityAndLeisureList.contains(
+                    FacilityAndLeisureItem(
+                        resources.getIdentifier(
+                            "ic_campsite_facility_5", "drawable", requireContext().packageName
+                        ), contentFacility[4]
+                    )
+                )
+            ) facilityAndLeisureList.remove(
                 FacilityAndLeisureItem(
                     resources.getIdentifier(
-                        "ic_campsite_facility_$it", "drawable", requireContext().packageName
-                    ), contentFacility[it - 1]
+                        "ic_campsite_amenity_8", "drawable", requireContext().packageName
+                    ), contentAmenity[7]
                 )
             )
         }
-
-        campsiteDetailInfo.amenities.forEach {
-            facilityAndLeisureList.add(
-                FacilityAndLeisureItem(
-                    resources.getIdentifier(
-                        "ic_campsite_amenity_$it", "drawable", requireContext().packageName
-                    ), contentAmenity[it - 1]
-                )
-            )
-        }
-
-        campsiteDetailInfo.themes.forEach {
-            facilityAndLeisureList.add(
-                FacilityAndLeisureItem(
-                    resources.getIdentifier(
-                        "ic_campsite_theme_$it", "drawable", requireContext().packageName
-                    ), contentTheme[it - 1]
-                )
-            )
-        }
-
-        if (facilityAndLeisureList.contains(
-                FacilityAndLeisureItem(
-                    resources.getIdentifier(
-                        "ic_campsite_facility_5", "drawable", requireContext().packageName
-                    ), contentFacility[4]
-                )
-            )
-        ) facilityAndLeisureList.remove(
-            FacilityAndLeisureItem(
-                resources.getIdentifier(
-                    "ic_campsite_amenity_8", "drawable", requireContext().packageName
-                ), contentAmenity[7]
-            )
-        )
-
         initRecyclerView(facilityAndLeisureList)
     }
 
@@ -230,14 +231,15 @@ class CampsiteDetailFragment :
     }
 
     private fun initRecyclerView(facilityAndLeisure: List<FacilityAndLeisureItem>) {
-        if (facilityAndLeisure.isNotEmpty()) binding.rvCampsiteFacilityAndLeisure.apply {
-            layoutManager = LinearLayoutManager(
-                requireContext(), LinearLayoutManager.HORIZONTAL, false
-            )
-            adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
+        if (facilityAndLeisure.isNotEmpty())
+            binding.rvCampsiteFacilityAndLeisure.apply {
+                layoutManager = LinearLayoutManager(
+                    requireContext(), LinearLayoutManager.HORIZONTAL, false
+                )
+                adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
 
-            addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL, 20))
-        }
+                addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL, 20))
+            }
         else binding.clCampsiteAmenity.visibility = View.GONE
 
         if (searchViewModel.campsiteData.value != null) {
@@ -257,6 +259,8 @@ class CampsiteDetailFragment :
                 addItemDecoration(
                     LinearItemDecoration(requireContext(), LinearLayoutManager.VERTICAL, 20)
                 )
+
+                campsiteReviewAdapter.notifyDataSetChanged()
             }
         }
 
@@ -372,13 +376,15 @@ class CampsiteDetailFragment :
             if (this.size > 3) {
                 reviews = this.subList(0, 3)
                 campsiteReviewAdapter.setData(sync, reviews)
+//                campsiteReviewAdapter.notifyDataSetChanged()
                 binding.rvCampsiteReview.visibility = View.VISIBLE
                 binding.tvShowListReview.visibility = View.VISIBLE
                 binding.clEmptyCollection.visibility = View.GONE
-            } else if (this.isNotEmpty()) {
+            } else if (this.size in 1..2) {
                 campsiteReviewAdapter.setData(sync, this)
+//                campsiteReviewAdapter.notifyDataSetChanged()
 //                if (isInserted)
-//                    campsiteReviewAdapter.notifyItemInserted(position)
+//                    campsiteReviewAdapter.notifyItemInserted(0)
 //                else
 //                    campsiteReviewAdapter.notifyItemRemoved(position)
                 binding.rvCampsiteReview.visibility = View.VISIBLE
@@ -389,6 +395,10 @@ class CampsiteDetailFragment :
                 binding.tvShowListReview.visibility = View.GONE
                 binding.clEmptyCollection.visibility = View.VISIBLE
                 campsiteReviewAdapter.setData(sync, listOf())
+//                if (isInserted)
+//                    campsiteReviewAdapter.notifyItemInserted(0)
+//                else
+//                    campsiteReviewAdapter.notifyItemRemoved(0)
             }
         }
     }
